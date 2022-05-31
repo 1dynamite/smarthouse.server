@@ -1,0 +1,25 @@
+{
+  "name": "smarthouse.server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/1dynamite/smarthouse.server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/1dynamite/smarthouse.server/issues"
+  },
+  "homepage": "https://github.com/1dynamite/smarthouse.server#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "mongoose": "^6.3.4"
+  }
+}
