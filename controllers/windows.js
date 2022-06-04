@@ -2,25 +2,47 @@ const mongoose = require("mongoose");
 const fs = require("fs");
 const path = require("path");
 
-const getAll = (req, res) => {
+const getAll = async (req, res) => {
   const fsp = fs.promises;
   const rootPath = process.cwd();
 
-  const myPromises = [];
+  const myDataArray = [];
 
   for (const i of req.dataFromDB) {
-    const myPath = path.join(rootPath, i.img);
-    myPromises.push(fsp.readFile(myPath, "base64"));
+    const pathToImg = path.join(rootPath, i.img);
+
+    const p = fsp
+      .readFile(pathToImg, "base64")
+      .then((data) => `data:image/jpg;base64,${data}`);
+
+    const myPromises = [p];
+
+    i.windows.forEach((el) => {
+      const pathToWindowImg = path.join(rootPath, el);
+
+      const p = fsp
+        .readFile(pathToWindowImg, "base64")
+        .then((data) => `data:image/jpg;base64,${data}`);
+
+      myPromises.push(p);
+    });
+
+    const myArray = await Promise.all(myPromises);
+
+    const myObject = {
+      img: myArray.shift(),
+      windows: myArray,
+    };
+
+    myDataArray.push(myObject);
   }
 
-  Promise.all(myPromises).then((values) => {
-    const newValues = values.map((item, index) => ({
-      ...req.dataFromDB[index],
-      img: `data:image/jpg;base64,${item}`,
-    }));
+  const newValues = myDataArray.map((item, index) => ({
+    ...req.dataFromDB[index],
+    ...item,
+  }));
 
-    res.json(newValues);
-  });
+  res.json(newValues);
 };
 
 const getDataFromDB = (req, res, next) => {
