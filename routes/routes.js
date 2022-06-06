@@ -5,7 +5,11 @@ const details = require("../controllers/details");
 
 const router = express.Router();
 
-router.get("/welcome-screen", welcomeScreen.get);
+router.get(
+  "/welcome-screen",
+  welcomeScreen.getDataFromDB,
+  welcomeScreen.getAll
+);
 router.get("/windows", windows.getDataFromDB, windows.getAll);
 router.get("/details/:id", details.getOne);
 
