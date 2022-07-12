@@ -1,13 +1,12 @@
 const mongoose = require("mongoose");
 const app = require("./app");
 
+const URL =
+  "mongodb+srv://shoxa98:V-_V9u-6*2X6bF%40@cluster0.cr3ur.mongodb.net/smarthouse?retryWrites=true&w=majority";
+
 mongoose
-  .connect("mongodb://localhost:27017/smarthouse")
-  .catch(() =>
-    console.log(
-      `unable to connect to database: ${"mongodb://localhost:27017/smarthouse"}`
-    )
-  );
+  .connect(URL)
+  .catch(() => console.log(`unable to connect to database: ${URL}`));
 
 mongoose.connection.on("error", () => {
   console.log("database connection error");
