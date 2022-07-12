@@ -12,6 +12,8 @@ mongoose.connection.on("error", () => {
   console.log("database connection error");
 });
 
-app.listen(3001, () => {
-  console.log(`Application is running on http://localhost:${3001}/`);
+app.listen(process.env.PORT, () => {
+  console.log(
+    `Application is running on http://ip-address:${process.env.PORT}/`
+  );
 });
